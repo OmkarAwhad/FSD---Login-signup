@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+      }
+
+      .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        width: 350px;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+        font-size: 2px;
+      }
+
+      label {
+        font-size: 14px;
+        color: #555;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      input:focus {
+        border-color: #667eea;
+      }
+
+      button {
+        width: 100%;
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #764ba2;
+      }
+
+      .login-link {
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      .login-link a {
+        color: #667eea;
+        text-decoration: none;
+      }
+
+      .input-box {
+        font-size: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Register</h2>
+      <form
+        class="form"
+        [formGroup]="registerForm"
+        (ngSubmit)="registerSubmit()"
+      >
+        <div class="input-group">
+          <label for="name">Full Name</label>
+          <input
+            class="input-box"
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            required
+            formControlName="name"
+          />
+          @if(registerForm.get('name')?.invalid &&
+          registerForm.get('name')?.touched){
+          <div>name is required</div>
+          }
+        </div>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            class="input-box"
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+            formControlName="email"
+          />
+          @if(registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched){
+          <div>email is not valid</div>
+          }
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            class="input-box"
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+            formControlName="password"
+          />
+          @if(registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched){
+          <div>password is required</div>
+          }
+        </div>
+        <div class="input-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input
+            class="input-box"
+            type="password"
+            id="confirm-password"
+            placeholder="Confirm your password"
+            required
+            formControlName="confirmPassword"
+          />
+          @if(registerForm.get('confirmPassword')?.invalid &&
+          registerForm.get('confirmPassword')?.touched){
+          <div>confirmPassword is required</div>
+          }
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+      <div class="login-link">
+        Already have an account? <a [routerLink]="['/auth/login']">Login</a>
+      </div>
+    </div>
+  </body>
+</html>
