@@ -1,0 +1,10 @@
+{
+   "/apiX": {
+      "target": "http://localhost:5005",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+         "^/apiX": "api"
+      }
+   }
+}
