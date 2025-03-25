@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { passwordMatchValidator } from '../utils/passwordMatchValidator';
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,19 +13,39 @@ import { passwordMatchValidator } from '../utils/passwordMatchValidator';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    },{ validators: passwordMatchValidator });
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.loginForm = this.formBuilder.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+      },
+      { validators: passwordMatchValidator }
+    );
   }
   loginSubmit() {
     if (this.loginForm.valid) {
-      console.log('Success ' + this.loginForm.value);
-      console.log('Success ' + JSON.stringify(this.loginForm.value));
+      this.authService.loginUser(this.loginForm.value).subscribe(
+        (res: any) => {
+          console.log('Response from server:', res);
+
+          if (res.token) {
+            localStorage.setItem('token', res.token);
+            console.log('Token stored in localStorage:', res.token);
+            this.router.navigate(['/dashboard']);
+          } else {
+            console.error('Error: No token received in response');
+          }
+        },
+        (error: any) => {
+          console.error('Login failed:', error);
+        }
+      );
     } else {
-      console.log(this.loginForm.value);
-      this.printErrors();
+      console.log('Form is invalid:', this.loginForm.value);
     }
   }
 
